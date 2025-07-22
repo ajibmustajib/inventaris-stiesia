@@ -1,0 +1,1 @@
+<img class="h-11" src="/assets/images/logo/logo-stiesia-1.png" alt="logo stiesia"/>
