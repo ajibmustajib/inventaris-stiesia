@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\InventoryManagement;
 use App\Filament\Resources\InventoryManagementResource;
 use Filament\Forms\Form;
+use App\Filament\Resources\AssetManagementResource;
 
 Route::get('/', function () {
     return view('welcome');
@@ -34,3 +35,7 @@ Route::get('/debug-inventory-modal', function () {
 
     return 'Semua data aman. Tidak ada error saat load form edit.';
 });
+
+Route::get('/aset/kelola/{id_room}', function ($id_room) {
+    return redirect()->to(route('filament.admin.resources.asset-managements.index') . '?room_id=' . $id_room);
+})->name('aset.tambah');

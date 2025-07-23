@@ -45,9 +45,10 @@ class InventoryManagementResource extends Resource
                             ->label('Kode Ruangan')
                             ->required()
                             ->rules(fn ($record) => [
-                                'required', 'string', 'max:10', Rule::unique('inventory_management', 'id_room')->ignore($record?->id)
+                                'required', 'string', 'max:10', Rule::unique('inventory_management', 'id_room')->ignore($record?->id_room, 'id_room')
                             ])
                             ->reactive(),
+
                     TextInput::make('room_description'),
 
                     TextInput::make('dimension'),
@@ -116,10 +117,11 @@ class InventoryManagementResource extends Resource
                 ->modalButton('Ubah Data')
                 ->modalHeading('Ubah Data Inventory')
                 ->successNotificationTitle('Data Inventory berhasil diubah'),
-                Tables\Actions\DeleteAction::make()
-                ->modalButton('Hapus Data')
-                ->modalHeading('Hapus Data Inventory')
-                ->successNotificationTitle('Data inventory berhasil dihapus'),
+                Tables\Actions\Action::make('kelola')
+                ->label('Kelola Aset')
+                ->icon('heroicon-o-plus-circle')
+                ->url(fn ($record) => route('aset.tambah', ['id_room' => $record->id_room]))
+                ->openUrlInNewTab(),
                 Tables\Actions\Action::make('print')
                 ->label('Cetak PDF')
                 ->icon('heroicon-o-printer')
@@ -129,9 +131,15 @@ class InventoryManagementResource extends Resource
 
                     return response()->streamDownload(
                         fn () => print($pdf->output()),
-                        'inventory-' . $record->id . '.pdf'
+                        'inventory-' . $record->id_room . '.pdf'
+                        
                     );
-                })   
+                }),
+                Tables\Actions\DeleteAction::make()
+                ->modalButton('Hapus Data')
+                ->modalHeading('Hapus Data Inventory')
+                ->successNotificationTitle('Data inventory berhasil dihapus'),
+                   
             ])
             ->headerActions([
                 CreateAction::make()

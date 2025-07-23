@@ -11,7 +11,7 @@ class InventoryManagement extends Model
     use HasFactory;
 
     protected $primaryKey = 'id_room'; // ← Ganti ke nama kolom primary key kamu
-    public $incrementing = true;       // Atau false jika kamu isi manual
+    public $incrementing = false;       // Atau false jika kamu isi manual
     protected $keyType = 'int';        // 'string' jika pakai UUID
 
     protected $fillable = [

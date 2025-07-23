@@ -36,13 +36,24 @@ return new class extends Migration
 
             $table->timestamps();
         });
+
+        Schema::create('inv_management_det', function (Blueprint $table) {
+            $table->string('id_room'); // hanya SEKALI
+            $table->foreign('id_room')->references('id_room')->on('inventory_management')->onDelete('restrict');
+
+            $table->foreignId('id_item')->constrained('items')->onDelete('restrict');
+            $table->integer('stock')->nullable();
+            $table->string('description', 255)->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
-    {
+    {   
+        Schema::dropIfExists('inv_management_det');
         Schema::dropIfExists('inventory_management');
         Schema::dropIfExists('room_types');
     }
