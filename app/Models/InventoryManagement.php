@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class InventoryManagement extends Model
 {
-
     use HasFactory;
 
     protected $primaryKey = 'id_room'; // ← Ganti ke nama kolom primary key kamu
+
     public $incrementing = false;       // Atau false jika kamu isi manual
+
     protected $keyType = 'int';        // 'string' jika pakai UUID
 
     protected $fillable = [
@@ -31,7 +32,7 @@ class InventoryManagement extends Model
     ];
 
     protected $casts = [
-    'education_level_ids' => 'array',
+        'education_level_ids' => 'array',
     ];
 
     public function RoomType()

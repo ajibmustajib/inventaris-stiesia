@@ -83,7 +83,7 @@
 </head>
 <body>
   <div class="container">
-    <div class="row">
+    <div class="header">
         <div class="col-xs-2">
             <img src="assets/images/logo/logo-stiesia.png" width="70px" height="70px">
         </div>
@@ -94,10 +94,17 @@
             <div class="email">E: stiesia@sby.dnet.id</div>
         </div>
         <hr class="garis-bawah">
+
+        <div class="title" style="text-align: center; font-size: 16px; font-weight: bold; margin-top: 15px;">
+            Laporan Pengelolaan Ruang {{ $record->name }}
+        </div>
+        <div style="text-align: center; font-size: 16px; margin-top: 5px;">
+            Ukuran {{ $record->dimension }} M²
+        </div>
     </div>
-  <?php //print_r($jenisruang);die;?>
-  <h4 style="text-align:center;">Laporan Pengelolaan {{ $record->room_name }}<br/>Ukuran &nbsp;{{ $record->dimension }}</h4><br />
   
+  <br />
+  <br />
   <br />          
   <table class="table table-bordered" cellpadding="4" style="font-size: 15px; margin-top: -25px">
     <thead>
@@ -110,25 +117,39 @@
       </tr>
     </thead>
     <tbody>
-        <?php $i=1; foreach($record as $data):?>
-          <tr>
-            <td style="text-align: center"><?php echo $i;?></td>
-            <td style="text-align: center">{{ $record->room_name }}</td>
-            <td style="text-align: center">{{ $record->room_name }}</td>
-            <td style="text-align: center">{{ $record->room_name }}</td>
-            <td style="text-align: center">{{ $record->room_name }}</td>
-          </tr>
-        <?php $i++; endforeach;?> 
-    </tbody>
+    @php $i = 1; @endphp
+    @foreach($record->room_assets as $asset)
+      <tr>
+        <td style="text-align: center">{{ $i }}</td>
+        <td style="text-align: center">{{ $asset->item->name ?? '-' }}</td>
+        <td style="text-align: center">{{ $asset->stock }}</td>
+        <td style="text-align: center">{{ $asset->description }}</td>
+        <td style="text-align: center">
+          {{ ($asset->item->itemType->item_type_code ?? '-') }}
+          .
+          {{ ($asset->item->item_code ?? '-') }}
+          .
+          {{ $record->room_code }}
+          .
+          {{ $asset->stock ?? 0 }}
+        </td>
+      </tr>
+      @php $i++; @endphp
+    @endforeach
+</tbody>
   </table>
-  <table width="100%">
-        <tr >
-            <td style="width:20%"></td>
-            <td style="width:20%"></td>
-            <td style="width:20%"></td>
-            <td style="width:40%">Bagian Rumah Tangga</td>
-        </tr>    
-  </table> 
+    <!-- Footer tanda tangan -->
+    <br><br>
+    <table width="100%">
+        <tr>
+            <td style="width:60%"></td>
+            <td style="width:40%; text-align:center;">
+                Bagian Rumah Tangga<br><br><br><br>
+                <u>(...........................................)</u><br>
+                NIP. ....................................
+            </td>
+        </tr>
+    </table>
   </div>
 </body>
 </html>

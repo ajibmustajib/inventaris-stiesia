@@ -2,30 +2,26 @@
 
 namespace App\Filament\Resources\Master;
 
-use Filament\Forms;
-use Filament\Tables;
+use App\Filament\Resources\Master\RoomTypeResource\Pages;
 use App\Models\RoomType;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
 use Filament\Actions\StaticAction;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Radio;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Tables\Enums\FiltersLayout;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\Master\RoomTypeResource\Pages;
-use App\Filament\Resources\Master\RoomTypeResource\RelationManagers;
+use Filament\Tables\Table;
 
 class RoomTypeResource extends Resource
 {
     protected static ?string $model = RoomType::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-home';
 
     protected static ?string $slug = 'master/room-type';
 
@@ -34,7 +30,6 @@ class RoomTypeResource extends Resource
     protected static ?string $navigationLabel = 'Jenis Ruangan';
 
     protected static ?string $pluralModelLabel = 'Jenis Ruangan';
-
 
     public static function form(Form $form): Form
     {
@@ -45,7 +40,7 @@ class RoomTypeResource extends Resource
                         ->label('Nama Jenis Ruangan')
                         ->required()
                         ->rules([
-                            'required', 'string', 'max:50'
+                            'required', 'string', 'max:50',
                         ])
                         ->reactive(),
 
@@ -56,32 +51,32 @@ class RoomTypeResource extends Resource
                         ->maxLength(3)
                         ->required()
                         ->rules([
-                            'required', 'numeric', 'digits_between:1,3'
+                            'required', 'numeric', 'digits_between:1,3',
                         ])
                         ->reactive(),
-                    
+
                     Radio::make('ownership_status')
                         ->options([
                             true => 'SD',
-                            false => 'SW'
+                            false => 'SW',
                         ])
                         ->inline()
                         ->default(false)
                         ->required()
                         ->rules([
-                            'required', 'boolean'
+                            'required', 'boolean',
                         ])
                         ->label('Kepemilikan'),
-                    
+
                     Radio::make('condition_status')
                         ->options([
                             true => 'Terawat',
-                            false => 'Tidak Terawat'
+                            false => 'Tidak Terawat',
                         ])
                         ->inline()
                         ->default(true)
                         ->rules([
-                            'required', 'boolean'
+                            'required', 'boolean',
                         ])
                         ->required()
                         ->label('Kondisi'),
@@ -93,11 +88,11 @@ class RoomTypeResource extends Resource
                         ->maxLength(3)
                         ->required()
                         ->rules([
-                            'required', 'numeric', 'digits_between:1,3'
+                            'required', 'numeric', 'digits_between:1,3',
                         ])
                         ->reactive(),
-                    
-                ])->columns(2)
+
+                ])->columns(2),
             ]);
     }
 
@@ -106,34 +101,41 @@ class RoomTypeResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('no')->label('No.')->rowIndex(),
-                TextColumn::make('name')->label('Jenis Ruangan'),
-                TextColumn::make('ownership')->label('Kepemilikan'),
-                TextColumn::make('condition')->label('Kondisi')
+                TextColumn::make('name')->label('Jenis Ruangan')->searchable(),
+                TextColumn::make('ownership')->alignment('center')->label('Kepemilikan'),
+                TextColumn::make('condition')->alignment('center')->label('Kondisi')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
                         'Terawat' => 'success',
                         'Tidak Terawat' => 'warning',
-                    }),
-                TextColumn::make('utilization')->label('Utilisasi (Jam/Minggu)'),
+                    })->alignment('center'),
+                TextColumn::make('utilization')->alignment('center')->label('Utilisasi (Jam/Minggu)'),
+                TextColumn::make('aksi_header')->alignment('right')->label('Aksi'),
             ])
             ->filters([
                 SelectFilter::make('condition_status')
-                    ->label('Kodisi')
+                    ->label('Kondisi')
                     ->options([
                         true => 'Terawat',
-                        false => 'Tidak Terawat'
+                        false => 'Tidak Terawat',
                     ]),
 
                 SelectFilter::make('ownership_status')
                     ->label('Kepemilikan')
                     ->options([
                         true => 'Milik Sendiri',
-                        false => 'Sewa'
-                    ])
+                        false => 'Sewa',
+                    ]),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                 Tables\Actions\EditAction::make()
+                    ->modalButton('Ubah Data')
+                    ->modalHeading('Ubah Data Jenis Ruangan')
+                    ->successNotificationTitle('Data jenis ruangan berhasil diubah'),
+                Tables\Actions\DeleteAction::make()
+                    ->modalButton('Hapus Data')
+                    ->modalHeading('Hapus Data Jenis Ruangan')
+                    ->successNotificationTitle('Data jenis ruangan berhasil dihapus'),
             ])
             ->headerActions([
                 CreateAction::make()
@@ -142,8 +144,8 @@ class RoomTypeResource extends Resource
                     ->createAnother(false)
                     ->modalButton('Simpan Data')
                     ->modalHeading('Tambah Data Jenis Ruangan')
-                    ->modalCancelAction(fn(StaticAction $action) => $action->label('Batal'))
-                    ->successNotificationTitle('Data Jenis Ruangan berhasil ditambahkan')
+                    ->modalCancelAction(fn (StaticAction $action) => $action->label('Batal'))
+                    ->successNotificationTitle('Data Jenis Ruangan berhasil ditambahkan'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -158,4 +160,5 @@ class RoomTypeResource extends Resource
             'index' => Pages\ManageRoomTypes::route('/'),
         ];
     }
+
 }

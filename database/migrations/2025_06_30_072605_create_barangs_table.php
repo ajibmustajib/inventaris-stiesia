@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id(); // ID auto-increment (opsional)
-            
+
             $table->string('item_code')->unique(); // kode barang, misal: B001
             $table->foreignId('id_item_type')->references('id')->on('item_types')->onDelete('cascade');
             $table->string('name');
