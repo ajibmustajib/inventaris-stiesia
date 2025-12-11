@@ -1,0 +1,28 @@
+services:
+  app:
+    container_name: inventory
+    build:
+      context: .
+      dockerfile: docker/prod/Dockerfile
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - /var/docker-app/inventory-stiesia/bootstrap/cache:/app/bootstrap/cache
+      - inventory_storage:/app/storage
+      - /var/docker/app/inventory-stiesia/.env:/app/.env
+    ports:
+      - "127.0.0.1:8008:80"
+    deploy:
+      resources:
+        limits:
+          memory: 1024M
+    mem_limit: 1024M
+
+volumes:
+  inventory_storage:
+    name: inventory_storage
+    driver: local
+    driver_opts:
+      type: none
+      device: /var/docker/volume/inventory_storage
+      o: bind

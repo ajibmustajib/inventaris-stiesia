@@ -32,7 +32,7 @@ RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
 RUN chmod -R 755 /app/storage /app/bootstrap/cache
 
 # Copy Supervisor configuration
-COPY /docker/prod/supervisor.d/artisan.conf /opt/docker/etc/supervisor.d/artisan.conf
+# COPY /docker/prod/supervisor.d/artisan.conf /opt/docker/etc/supervisor.d/artisan.conf
 
 
 EXPOSE 80
