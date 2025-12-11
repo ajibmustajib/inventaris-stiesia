@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     tty: true
     volumes:
+      - /var/docker-app/inventory-stiesia/bootstrap/cache:/app/bootstrap/cache
       - inventory_storage:/app/storage
       - /var/docker-app/inventory-stiesia/.env:/app/.env
     ports:
