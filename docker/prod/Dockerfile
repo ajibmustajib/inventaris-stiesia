@@ -34,5 +34,9 @@ RUN chmod -R 755 /app/storage /app/bootstrap/cache
 # Copy Supervisor configuration
 # COPY /docker/prod/supervisor.d/artisan.conf /opt/docker/etc/supervisor.d/artisan.conf
 
+# Copy entrypoint script
+RUN chmod +x docker/prod/entrypoint.sh
+COPY docker/prod/entrypoint.sh /opt/docker/provision/entrypoint.d/artisan.sh
+
 
 EXPOSE 80
