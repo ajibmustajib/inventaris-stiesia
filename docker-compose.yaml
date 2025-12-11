@@ -11,7 +11,7 @@ services:
       - inventory_storage:/app/storage
       - /var/docker-app/inventory-stiesia/.env:/app/.env
     ports:
-      - "127.0.0.1:8008:80"
+      - "127.0.0.1:8088:80"
     deploy:
       resources:
         limits:
