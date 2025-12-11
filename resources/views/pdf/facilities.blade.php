@@ -70,15 +70,15 @@
                     <td>{{ $rt->rooms_count }}</td>
                     <td>{{ $rt->total_area }}</td>
                     <td>{!! $rt->ownership_status ? '&#10003;' : '&#10007;' !!}</td>
-                    <td>{!! !$rt->ownership_status ? '&#10003;' : '&#10007;' !!}</td>
+                    <td>{!! $rt->ownership_status ? '&#10003;' : '&#10007;' !!}</td>
                     <td>{!! $rt->condition_status ? '&#10003;' : '&#10007;' !!}</td>
-                    <td>{!! !$rt->condition_status ? '&#10003;' : '&#10007;' !!}</td>
+                    <td>{!! $rt->condition_status ? '&#10003;' : '&#10007;' !!}</td>
                     <td>{{ $rt->utilization }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-      <!-- Footer tanda tangan -->
+
     <br><br>
     <table width="100%">
         <tr>
