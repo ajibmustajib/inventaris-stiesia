@@ -10,7 +10,6 @@ use Filament\Forms;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
-use Filament\Forms\Components\Textarea;
 use Illuminate\Support\Facades\DB;
 
 class ListRoomAssets extends ListRecords
@@ -44,7 +43,6 @@ class ListRoomAssets extends ListRecords
                 ->icon('heroicon-o-plus'),
         ];
     }
-
 
     protected function getTableQuery(): Builder
     {
@@ -176,7 +174,7 @@ class ListRoomAssets extends ListRecords
     {
         return [
             route('filament.admin.resources.room-assets.index', ['room_id' => $this->roomId]) => 'Asset Manajemen',
-            '#' => 'Ruangan (' . $this->roomName . ')',
+            '#' => 'Ruangan ('.$this->roomName.')',
         ];
     }
 }

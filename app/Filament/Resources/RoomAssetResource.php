@@ -9,13 +9,10 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +21,7 @@ class RoomAssetResource extends Resource
     protected static ?string $model = RoomAsset::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-    
+
     protected static ?string $navigationLabel = 'Kelola Asset Ruangan';
 
     protected static ?string $pluralModelLabel = 'Kelola Asset Ruangan';
@@ -92,16 +89,16 @@ class RoomAssetResource extends Resource
                             ->numeric()
                             ->required()
                             ->rules([
-                            'required',
-                             ]),
+                                'required',
+                            ]),
 
                         Textarea::make('description')
-                        ->label('Deskripsi Ruangan')
-                        ->autosize()
-                        ->required()
-                        ->rules([
-                            'required', 'string', 'max:255',
-                        ]),
+                            ->label('Deskripsi Ruangan')
+                            ->autosize()
+                            ->required()
+                            ->rules([
+                                'required', 'string', 'max:255',
+                            ]),
 
                     ])->defaultItems(1)
                     ->minItems(1)

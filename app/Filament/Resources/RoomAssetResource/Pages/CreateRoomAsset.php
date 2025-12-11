@@ -12,7 +12,7 @@ class CreateRoomAsset extends CreateRecord
 {
     protected static string $resource = RoomAssetResource::class;
 
-     public ?int $roomId = null;
+    public ?int $roomId = null;
 
     public string $roomName = 'Nama Ruangan';
 
@@ -21,7 +21,7 @@ class CreateRoomAsset extends CreateRecord
     protected function getFormActions(): array
     {
         return [
-            $this->getCreateFormAction(), 
+            $this->getCreateFormAction(),
             $this->getCancelFormAction(),
         ];
     }
@@ -58,12 +58,11 @@ class CreateRoomAsset extends CreateRecord
         return static::getResource()::getUrl('index');
     }
 
-   public function getBreadcrumbs(): array
+    public function getBreadcrumbs(): array
     {
         return [
             route('filament.admin.resources.room-assets.index', ['room_id' => $this->roomId]) => 'Asset Manajemen',
-            '#' => 'Ruangan (' . $this->roomName . ')', '' . 'Tambah Data',
+            '#' => 'Ruangan ('.$this->roomName.')', ''.'Tambah Data',
         ];
     }
-   
 }

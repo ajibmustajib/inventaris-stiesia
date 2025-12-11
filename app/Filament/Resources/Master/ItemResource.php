@@ -2,25 +2,23 @@
 
 namespace App\Filament\Resources\Master;
 
+use App\Filament\Resources\Master\ItemResource\Pages;
 use App\Models\Item;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
-use Filament\Resources\Resource;
 use Filament\Actions\StaticAction;
 use Filament\Forms\Components\Card;
-use Filament\Tables\Actions\Action;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Form;
+use Filament\Resources\Resource;
+use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Filament\Resources\Master\ItemResource\Pages;
+use Filament\Tables\Table;
 
 class ItemResource extends Resource
 {
@@ -79,9 +77,9 @@ class ItemResource extends Resource
                         ->directory('inventaris/barang')
                         ->maxSize(2048)
                         ->rules([
-                        'required', 
-                        'mimes:jpeg,jpg,png',
-                        'max:2048'
+                            'required',
+                            'mimes:jpeg,jpg,png',
+                            'max:2048',
                         ])
                         ->image()
                         ->helperText('Max File 2MB dengan format jpeg, jpg, png')
@@ -93,9 +91,9 @@ class ItemResource extends Resource
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {
-    return parent::getEloquentQuery()
-        ->with('itemType')                      
-        ->withSum('roomAssets as total_stock', 'stock'); 
+        return parent::getEloquentQuery()
+            ->with('itemType')
+            ->withSum('roomAssets as total_stock', 'stock');
     }
 
     public static function table(Table $table): Table
@@ -118,7 +116,7 @@ class ItemResource extends Resource
                     ->action(
                         Action::make('lihat_stok')
                             ->icon('heroicon-o-eye')
-                            ->modalHeading(fn($record) => 'Detail Stok Barang : ' . ($record->name ?? '-'))
+                            ->modalHeading(fn ($record) => 'Detail Stok Barang : '.($record->name ?? '-'))
                             ->modalDescription('Rincian stok barang ini berdasarkan jenis dan ruangannya.')
                             ->modalWidth('4xl')
                             ->modalSubmitAction(false)
@@ -138,7 +136,7 @@ class ItemResource extends Resource
                                     'assets' => $assets,
                                 ]);
                             })
-                        ),
+                    ),
 
                 ImageColumn::make('image')
                     ->label('Gambar')
@@ -149,40 +147,40 @@ class ItemResource extends Resource
                     ->width(100)
                     ->alignment('start')
                     ->url(fn ($record) => $record->image
-                        ? asset('storage/media/'.$record->image)
-                        : asset('images/no-image.png'))
+                    ? asset('storage/media/'.$record->image)
+                    : asset('images/no-image.png'))
                     ->openUrlInNewTab(),
 
                 TextColumn::make('aksi_header')->alignment('right')->label('Aksi'),
-                 
+
             ])
             ->filters([
 
-            SelectFilter::make('item_type_id')
+                SelectFilter::make('item_type_id')
                     ->label('Jenis Barang')
                     ->relationship('ItemType', 'name'),
 
-        ], layout: FiltersLayout::AboveContent)
+            ], layout: FiltersLayout::AboveContent)
             ->actions([
-            Tables\Actions\EditAction::make()
+                Tables\Actions\EditAction::make()
                     ->modalButton('Ubah Data')
                     ->modalHeading('Ubah Data Barang')
                     ->successNotificationTitle('Data barang berhasil diubah'),
-            Tables\Actions\DeleteAction::make()
+                Tables\Actions\DeleteAction::make()
                     ->modalButton('Hapus Data')
                     ->modalHeading('Hapus Data Barang')
                     ->successNotificationTitle('Data barang berhasil dihapus'),
-        ])
+            ])
             ->headerActions([
 
-            Tables\Actions\Action::make('cetak_item')
+                Tables\Actions\Action::make('cetak_item')
                     ->label('Cetak Jumlah Barang')
                     ->icon('heroicon-o-printer')
                     ->color('success')
                     ->url(route('report.item_all'))
                     ->openUrlInNewTab(),
 
-            CreateAction::make()
+                CreateAction::make()
                     ->label('Tambah Data')
                     ->icon('heroicon-o-plus')
                     ->createAnother(false)
@@ -190,12 +188,12 @@ class ItemResource extends Resource
                     ->modalHeading('Tambah Data Barang')
                     ->modalCancelAction(fn (StaticAction $action) => $action->label('Batal'))
                     ->successNotificationTitle('Data barang berhasil ditambahkan'),
-        ])
+            ])
             ->bulkActions([
-            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-            ]),
-        ]);
+                ]),
+            ]);
     }
 
     public static function getPages(): array
@@ -204,5 +202,4 @@ class ItemResource extends Resource
             'index' => Pages\ManageItems::route('/'),
         ];
     }
-
 }

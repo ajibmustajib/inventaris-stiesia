@@ -102,5 +102,4 @@ class ItemTypeResource extends Resource
             'index' => Pages\ManageItemTypes::route('/'),
         ];
     }
-
 }

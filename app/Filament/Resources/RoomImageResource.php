@@ -8,15 +8,10 @@ use App\Models\RoomImage;
 use Filament\Forms\Components\Card;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
-use Filament\Tables;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
-
 
 class RoomImageResource extends Resource
 {
@@ -57,21 +52,21 @@ class RoomImageResource extends Resource
                     ->directory('inventaris/room')
                     ->maxSize(2048)
                     ->rules([
-                        'required', 
+                        'required',
                         'mimes:jpeg,jpg,png',
-                        'max:2048'
+                        'max:2048',
                     ])
                     ->image()
                     ->helperText('Max File 2MB dengan format jpeg, jpg, png')
                     ->visibility('public'),
 
                 Textarea::make('description')
-                        ->label('Deskripsi Ruangan')
-                        ->autosize()
-                        ->required()
-                        ->rules([
-                            'required', 'string', 'max:255',
-                        ]),
+                    ->label('Deskripsi Ruangan')
+                    ->autosize()
+                    ->required()
+                    ->rules([
+                        'required', 'string', 'max:255',
+                    ]),
 
             ])->columns(1),
         ]);
@@ -80,7 +75,7 @@ class RoomImageResource extends Resource
     public static function getRelations(): array
     {
         return [
-            
+
         ];
     }
 

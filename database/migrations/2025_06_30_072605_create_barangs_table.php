@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('item_code')->unique(); 
+            $table->id();
+            $table->string('item_code')->unique();
             $table->foreignId('id_item_type')->references('id')->on('item_types')->onDelete('cascade');
             $table->string('name');
             $table->integer('distribution_amount')->default(0)->comment('jumlah distribusi');
-            $table->string('image')->nullable(); 
+            $table->string('image')->nullable();
 
             $table->timestamps();
         });

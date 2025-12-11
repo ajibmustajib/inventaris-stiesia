@@ -46,7 +46,7 @@ Route::get('/report/{room}/room_asset', [ReportController::class, 'room_asset'])
 
 Route::get('/report/{room}/room_image', [ReportController::class, 'room_image'])->name('report.room_image');
 
-//Route::get('/room-image/{room}/print_image', [ReportController::class, 'print_image'])->name('room-image.print_image');
+// Route::get('/room-image/{room}/print_image', [ReportController::class, 'print_image'])->name('room-image.print_image');
 
 Route::get('/room-type/{room}/print_room_type', [RoomPrintController::class, 'print_room_type'])->name('room-type.print_room_type');
 
@@ -61,4 +61,3 @@ Route::get('/report/item', [ReportController::class, 'item'])
 
 Route::get('/report/item_all', [ReportController::class, 'item_all'])
     ->name('report.item_all');
-

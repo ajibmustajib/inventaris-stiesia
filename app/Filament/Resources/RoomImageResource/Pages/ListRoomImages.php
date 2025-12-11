@@ -13,7 +13,6 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Storage;
-use Filament\Forms\Components\Textarea;
 
 class ListRoomImages extends ListRecords
 {
@@ -95,7 +94,7 @@ class ListRoomImages extends ListRecords
                             ->label('Gambar Saat Ini')
                             ->content(function ($record) {
                                 $imgUrl = $record->image
-                                    ? asset('storage/media/' . $record->image)
+                                    ? asset('storage/media/'.$record->image)
                                     : asset('images/no-image.png');
 
                                 return new \Illuminate\Support\HtmlString(
@@ -106,31 +105,29 @@ class ListRoomImages extends ListRecords
                             ->columnSpanFull()
                             ->disableLabel(),
 
-
                         Forms\Components\FileUpload::make('image')
                             ->label('Upload Gambar (kosongkan jika tidak ingin ganti)')
                             ->disk('media')
                             ->directory('inventaris/room')
                             ->maxSize(2048)
                             ->rules([
-                                'required', 
+                                'required',
                                 'mimes:jpeg,jpg,png',
-                                'max:2048'
+                                'max:2048',
                             ])
                             ->image()
                             ->helperText('Max File 2MB dengan format jpeg, jpg, png')
                             ->required()
                             ->visibility('public'),
-                    
-                        
+
                         Forms\Components\Textarea::make('description')
-                        ->label('Deskripsi Ruangan')
-                        ->autosize()
-                        ->required()
-                        ->rules([
-                            'required', 'string', 'max:255',
-                        ])
-                        ->default(fn ($record) => $record->description),
+                            ->label('Deskripsi Ruangan')
+                            ->autosize()
+                            ->required()
+                            ->rules([
+                                'required', 'string', 'max:255',
+                            ])
+                            ->default(fn ($record) => $record->description),
                     ])
                     ->action(function ($record, array $data) {
                         $oldImage = $record->image;
@@ -170,7 +167,7 @@ class ListRoomImages extends ListRecords
     {
         return [
             route('filament.admin.resources.room-images.index', ['room_id' => $this->roomId]) => 'Asset Manajemen',
-            '#' => 'Ruangan (' . $this->roomName . ')',
+            '#' => 'Ruangan ('.$this->roomName.')',
         ];
     }
 }

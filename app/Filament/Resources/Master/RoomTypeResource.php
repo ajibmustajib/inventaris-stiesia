@@ -128,7 +128,7 @@ class RoomTypeResource extends Resource
                     ]),
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                 Tables\Actions\EditAction::make()
+                Tables\Actions\EditAction::make()
                     ->modalButton('Ubah Data')
                     ->modalHeading('Ubah Data Jenis Ruangan')
                     ->successNotificationTitle('Data jenis ruangan berhasil diubah'),
@@ -160,5 +160,4 @@ class RoomTypeResource extends Resource
             'index' => Pages\ManageRoomTypes::route('/'),
         ];
     }
-
 }

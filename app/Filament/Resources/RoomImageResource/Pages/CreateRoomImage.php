@@ -16,7 +16,7 @@ class CreateRoomImage extends CreateRecord
     protected function getFormActions(): array
     {
         return [
-            $this->getCreateFormAction(), 
+            $this->getCreateFormAction(),
             $this->getCancelFormAction(),
         ];
     }
@@ -57,7 +57,7 @@ class CreateRoomImage extends CreateRecord
 
         return [
             route('filament.admin.resources.room-images.index', ['room_id' => $this->roomId]) => 'Asset Manajemen',
-             '#' => 'Ruangan (' . $roomName . ')', '' . 'Tambah Data',
+            '#' => 'Ruangan ('.$roomName.')', ''.'Tambah Data',
         ];
     }
 }

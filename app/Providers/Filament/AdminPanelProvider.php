@@ -6,21 +6,19 @@ use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationGroup;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentView;
 use Filament\Widgets;
-use Filament\Pages\Auth\Login;
-use Filament\Navigation\NavigationGroup;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Filament\Tables\Table;
-use Filament\Support\Facades\FilamentView;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -49,16 +47,16 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 \App\Filament\Admin\Widgets\OverviewStats::class,
                 \App\Filament\Admin\Widgets\AssetChart::class,
-                
+
             ])
             ->navigationGroups([
-            NavigationGroup::make()
-                ->label('Master')
-                ->icon('heroicon-o-cog-6-tooth')
+                NavigationGroup::make()
+                    ->label('Master')
+                    ->icon('heroicon-o-cog-6-tooth'),
             ])
             ->renderHook(
-            'panels::page.end',
-            fn () => '
+                'panels::page.end',
+                fn () => '
                 <div style="
                     position: fixed;
                     bottom: 0;
@@ -72,7 +70,7 @@ class AdminPanelProvider extends PanelProvider
                     backdrop-filter: blur(6px);
                     z-index: 50;
                 ">
-                    © ' . date('Y') . ' LPDE. All rights reserved.
+                    © '.date('Y').' LPDE. All rights reserved.
                 </div>
             '
             )
@@ -101,7 +99,6 @@ class AdminPanelProvider extends PanelProvider
             ->default();
     }
 
-
     public function boot(): void
     {
         FilamentView::registerRenderHook(
@@ -114,5 +111,4 @@ class AdminPanelProvider extends PanelProvider
             fn () => '</div>'
         );
     }
-
 }

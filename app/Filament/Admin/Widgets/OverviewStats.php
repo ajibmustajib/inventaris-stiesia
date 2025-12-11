@@ -31,10 +31,6 @@ class OverviewStats extends StatsOverviewWidget
                 cache()->remember('total_ruangan', 60, fn () => \App\Models\Room::count())
             ),
 
-
-
         ];
     }
-
-    
 }

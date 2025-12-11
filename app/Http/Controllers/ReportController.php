@@ -52,7 +52,7 @@ class ReportController extends Controller
             ->whereHas('roomAssets', function ($query) {
                 $query->where('stock', '>', 0);
             })
-            ->take(50) 
+            ->take(50)
             ->get();
 
         if ($items->isEmpty()) {
@@ -93,6 +93,4 @@ class ReportController extends Controller
 
         return $pdf->stream('laporan-gambar-'.$room->name.'.pdf');
     }
-
-    
 }

@@ -9,19 +9,19 @@ use Filament\Forms\Components\Card;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\CreateAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rule;
-use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Actions\ActionGroup;
 
 class RoomResource extends Resource
 {
@@ -46,7 +46,7 @@ class RoomResource extends Resource
                         ->required(),
 
                     TextInput::make('name')
-                    ->label('Nama Ruangan')
+                        ->label('Nama Ruangan')
                         ->required()
                         ->rules([
                             'required', 'string', 'max:100',
@@ -97,9 +97,9 @@ class RoomResource extends Resource
                         ->directory('inventaris/room')
                         ->maxSize(2048)
                         ->rules([
-                        'required', 
-                        'mimes:jpeg,jpg,png',
-                        'max:2048'
+                            'required',
+                            'mimes:jpeg,jpg,png',
+                            'max:2048',
                         ])
                         ->image()
                         ->helperText('Max File 2MB dengan format jpeg, jpg, png')
@@ -169,50 +169,50 @@ class RoomResource extends Resource
             ], layout: FiltersLayout::AboveContent)
             ->actions([
                 ActionGroup::make([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit Ruangan')
-                    ->tooltip('Edit Ruangan')
-                    ->modalButton('Ubah Data')
-                    ->modalHeading('Ubah Data Asset Manajemen')
-                    ->successNotificationTitle('Data Asset Manajemen berhasil diubah'),
-                Tables\Actions\Action::make('kelola_aset')
-                    ->label('Kelola Aset')
-                    ->tooltip('Kelola Asset')
-                    ->icon('heroicon-o-rectangle-stack')
-                    ->color('primary')
-                    ->url(fn ($record) => route('filament.admin.resources.room-assets.index', ['room_id' => $record->id])),
-                Tables\Actions\Action::make('kelola_image')
-                    ->label('Kelola Gambar')
-                    ->tooltip('Kelola Gambar')
-                    ->icon('heroicon-o-photo')
-                    ->color('primary')
-                    ->url(fn ($record) => route('filament.admin.resources.room-images.index', ['room_id' => $record->id])),
-                Tables\Actions\Action::make('print')
-                    ->label('Cetak Asset')
-                    ->tooltip('Cetak Asset')
-                    ->icon('heroicon-o-printer')
-                    ->color('warning')
-                    ->url(fn ($record) => route('report.room_asset', $record))
-                    ->openUrlInNewTab(),
-                Tables\Actions\Action::make('print')
-                    ->label('Cetak Gambar')
-                    ->tooltip('Cetak Gambar')
-                    ->icon('heroicon-o-printer')
-                    ->color('warning')
-                    ->url(fn ($record) => route('report.room_image', $record))
-                    ->openUrlInNewTab(),
-                Tables\Actions\DeleteAction::make()
-                    ->label('Hapus Ruangan')
-                    ->tooltip('Hapus Ruangan')
-                    ->modalButton('Hapus Data')
-                    ->modalHeading('Hapus Data Inventory')
-                    ->successNotificationTitle('Data inventory berhasil dihapus'),
+                    Tables\Actions\EditAction::make()
+                        ->label('Edit Ruangan')
+                        ->tooltip('Edit Ruangan')
+                        ->modalButton('Ubah Data')
+                        ->modalHeading('Ubah Data Asset Manajemen')
+                        ->successNotificationTitle('Data Asset Manajemen berhasil diubah'),
+                    Tables\Actions\Action::make('kelola_aset')
+                        ->label('Kelola Aset')
+                        ->tooltip('Kelola Asset')
+                        ->icon('heroicon-o-rectangle-stack')
+                        ->color('primary')
+                        ->url(fn ($record) => route('filament.admin.resources.room-assets.index', ['room_id' => $record->id])),
+                    Tables\Actions\Action::make('kelola_image')
+                        ->label('Kelola Gambar')
+                        ->tooltip('Kelola Gambar')
+                        ->icon('heroicon-o-photo')
+                        ->color('primary')
+                        ->url(fn ($record) => route('filament.admin.resources.room-images.index', ['room_id' => $record->id])),
+                    Tables\Actions\Action::make('print')
+                        ->label('Cetak Asset')
+                        ->tooltip('Cetak Asset')
+                        ->icon('heroicon-o-printer')
+                        ->color('warning')
+                        ->url(fn ($record) => route('report.room_asset', $record))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\Action::make('print')
+                        ->label('Cetak Gambar')
+                        ->tooltip('Cetak Gambar')
+                        ->icon('heroicon-o-printer')
+                        ->color('warning')
+                        ->url(fn ($record) => route('report.room_image', $record))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus Ruangan')
+                        ->tooltip('Hapus Ruangan')
+                        ->modalButton('Hapus Data')
+                        ->modalHeading('Hapus Data Inventory')
+                        ->successNotificationTitle('Data inventory berhasil dihapus'),
                 ])
-                ->icon('heroicon-o-bars-3') 
-                ->label('') 
-                ->extraAttributes([
-                    'class' => 'justify-start',
-                ])
+                    ->icon('heroicon-o-bars-3')
+                    ->label('')
+                    ->extraAttributes([
+                        'class' => 'justify-start',
+                    ]),
             ])
             ->headerActions([
                 Tables\Actions\Action::make('cetak_prasarana')
@@ -248,7 +248,7 @@ class RoomResource extends Resource
     public static function getRelations(): array
     {
         return [
-            
+
         ];
     }
 

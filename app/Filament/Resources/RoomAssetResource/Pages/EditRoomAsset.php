@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\RoomAssetResource\Pages;
 
 use App\Filament\Resources\RoomAssetResource;
-use App\Models\Room;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
@@ -22,7 +21,7 @@ class EditRoomAsset extends EditRecord
     {
         return [
             route('filament.admin.resources.room-assets.index', ['room_id' => $this->roomId]) => 'Asset Manajemen',
-            '#' => 'Ruangan ' . $this->roomName,
+            '#' => 'Ruangan '.$this->roomName,
         ];
     }
 }

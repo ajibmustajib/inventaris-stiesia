@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('room_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->references('id')->on('rooms')->onDelete('restrict');
-            $table->string('image')->nullable(); 
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
