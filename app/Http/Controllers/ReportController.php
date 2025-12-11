@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Room;
 use App\Models\RoomType;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -33,7 +34,7 @@ class ReportController extends Controller
 
     public function item()
     {
-        $items = \App\Models\Item::with(['roomAssets.room'])->get();
+        $items = Item::with(['roomAssets.room'])->get();
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.item', [
             'items' => $items,
@@ -44,8 +45,7 @@ class ReportController extends Controller
 
     public function item_all()
     {
-
-        $items = \App\Models\Item::with([
+        $items = Item::with([
             'itemType',
             'roomAssets.room.room_type',
         ])
