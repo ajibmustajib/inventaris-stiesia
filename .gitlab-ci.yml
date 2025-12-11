@@ -1,0 +1,22 @@
+stages:
+  - deploy
+
+variables:
+  DEPLOY_SERVER: $SERVER_IP76
+  DEPLOY_USER: $SSH_USER_SERVER76
+  DEPLOY_PATH: /var/docker-app/inventory-stiesia
+  SSH_PRIVATE_KEY: $SSH_SECRET_KEY_SERVER76
+
+deploy_production:
+  stage: deploy
+  script:
+    - echo "$SSH_PRIVATE_KEY" > stiesia_cicd
+    - chmod 600 stiesia_cicd
+    - ssh -i stiesia_cicd -o StrictHostKeyChecking=no -p 6969 $DEPLOY_USER@$DEPLOY_SERVER "
+        cd $DEPLOY_PATH &&
+        git pull origin master &&
+        docker compose up -d --build &&
+        docker images -f "dangling=true" -q | xargs -r docker rmi
+      "
+  only:
+    - master
