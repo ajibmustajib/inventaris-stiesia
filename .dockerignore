@@ -2,9 +2,7 @@
 /public/build
 /public/hot
 /public/storage
-/storage/*
-!storage/oauth-private.key
-!storage/oauth-public.key
+/storage/*.key
 /vendor
 .env.backup
 .phpunit.result.cache

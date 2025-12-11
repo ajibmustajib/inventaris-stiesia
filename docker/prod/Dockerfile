@@ -21,14 +21,6 @@ WORKDIR /app
 # Copy built assets from node-base stage
 COPY --from=node-base /app .
 
-RUN mkdir -p \
-    storage/framework/cache \
-    storage/framework/sessions \
-    storage/framework/views \
-    storage/logs \
-    bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
-
 # Configure Git to treat /app as a safe directory
 RUN git config --global --add safe.directory /app
 
@@ -37,7 +29,7 @@ RUN composer install -o --no-dev
 
 # Set correct permissions for specific directories
 RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
-# RUN chmod -R 755 /app/storage /app/bootstrap/cache
+RUN chmod -R 755 /app/storage /app/bootstrap/cache
 
 # Copy Supervisor configuration
 # COPY /docker/prod/supervisor.d/artisan.conf /opt/docker/etc/supervisor.d/artisan.conf
