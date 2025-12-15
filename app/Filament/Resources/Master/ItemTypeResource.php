@@ -14,6 +14,12 @@ use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Validation\Rule;
+use Filament\Tables\Actions\Action;
+use Filament\Forms\Components\FileUpload;
+use App\Imports\ItemTypeImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class ItemTypeResource extends Resource
 {
@@ -88,6 +94,41 @@ class ItemTypeResource extends Resource
                     ->modalHeading('Tambah Data Jenis Barang')
                     ->modalCancelAction(fn (StaticAction $action) => $action->label('Batal'))
                     ->successNotificationTitle('Data jenis barang berhasil ditambahkan'),
+
+                Action::make('importExcel')
+                    ->label('Import Excel')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->color('success')
+                    ->form([
+                        FileUpload::make('file')
+                            ->label('File Excel')
+                            ->required()
+                            ->disk('local')           
+                            ->directory('imports')    
+                            ->acceptedFileTypes([
+                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                'application/vnd.ms-excel',
+                            ]),
+                    ])
+                    ->action(function (array $data) {
+                        try {
+                            $filePath = Storage::disk('local')->path($data['file']);
+
+                            Excel::import(new ItemTypeImport, $filePath);
+
+                            Notification::make()
+                                ->title('Import Jenis Ruangan berhasil')
+                                ->success()
+                                ->send();
+
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title('Import gagal')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
