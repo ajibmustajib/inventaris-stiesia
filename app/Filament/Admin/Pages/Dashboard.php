@@ -13,7 +13,7 @@ class Dashboard extends BaseDashboard
     {
         return [
             \App\Filament\Admin\Widgets\OverviewStats::class,
-            \App\Filament\Admin\Widgets\BlogPostsChart::class,
+            \App\Filament\Admin\Widgets\AssetChart::class,
         ];
     }
 }
