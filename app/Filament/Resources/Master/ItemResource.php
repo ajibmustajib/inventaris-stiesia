@@ -32,7 +32,7 @@ class ItemResource extends Resource
 
     protected static ?string $navigationLabel = 'Barang';
 
-    protected static ?string $pluralModelLabel = 'Barangg';
+    protected static ?string $pluralModelLabel = 'Barang';
 
     public static function form(Form $form): Form
     {
