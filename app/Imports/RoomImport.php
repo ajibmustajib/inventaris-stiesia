@@ -48,7 +48,7 @@ class RoomImport implements ToCollection, WithHeadingRow
             };
 
             Room::updateOrCreate(
-                ['id' => (int) $id], // ← ID dari Excel (AMAN)
+                
                 [
                     'room_code'           => $roomCode,
                     'room_type_id'        => (int) $roomTypeId,
