@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('description', 100)->nullable();
             $table->string('dimension', 50)->nullable()->comment('dimensi ruangan');
             $table->json('education_level_ids')->nullable();
-            $table->string('option', 2)->nullable()->comment('Room Options, U: Umum, D: Dosen, L: Laboratorium');
+            $table->string('option', 2)->nullable()->comment('Room Options, 1: Umum, 2: Dosen, 3: Laboratorium');
             $table->string('utilization', 255)->nullable();
 
             $table->timestamps();

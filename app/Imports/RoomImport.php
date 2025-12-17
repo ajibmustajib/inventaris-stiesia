@@ -18,39 +18,45 @@ class RoomImport implements ToCollection, WithHeadingRow
             $roomTypeId = $row['room_type_id'] ?? null;
             $name       = trim((string) ($row['name'] ?? ''));
 
-
-            if (! $id || $roomCode === '' || ! $roomTypeId || $name === '') {
+            if (! $id || $roomCode === '' || ! $roomTypeId) {
                 continue;
             }
 
-            $educationLevelsRaw = $row['education_level_ids'] ?? null;
             $educationLevels = null;
+            $rawEdu = $row['education_level_ids'] ?? null;
 
-            if ($educationLevelsRaw) {
-                if (is_string($educationLevelsRaw)) {
-                    $decoded = json_decode($educationLevelsRaw, true);
-
+            if ($rawEdu) {
+                if (is_string($rawEdu)) {
+                    $decoded = json_decode($rawEdu, true);
                     if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                        $educationLevels = array_map('strval', $decoded);
+                        $educationLevels = array_values($decoded);
                     }
-                } elseif (is_array($educationLevelsRaw)) {
-                    $educationLevels = array_map('strval', $educationLevelsRaw);
+                } elseif (is_array($rawEdu)) {
+                    $educationLevels = array_values($rawEdu);
                 }
             }
 
             Room::updateOrCreate(
-                ['id' => (int) $id], // id dari excel
+                ['id' => (int) $id], // ← ID dari Excel
                 [
                     'room_code'           => $roomCode,
-                    'room_type_id'        => $roomTypeId,
-                    'name'                => $name,
-                    'description'         => $row['description'] ?? null,
-                    'dimension'           => $row['dimension'] ?? null,
+                    'room_type_id'        => (int) $roomTypeId,
+                    'name'                => $name ?: null,
+                    'description'         => isset($row['description'])
+                        ? trim((string) $row['description'])
+                        : null,
+                    'dimension'           => isset($row['dimension'])
+                        ? trim((string) $row['dimension'])
+                        : null,
                     'education_level_ids' => $educationLevels
                         ? json_encode($educationLevels)
                         : null,
-                    'option'              => $row['option'] ?? null,
-                    'utilization'         => $row['utilization'] ?? 0,
+                    'option'              => isset($row['option'])
+                        ? (string) $row['option']  
+                        : null,
+                    'utilization'         => isset($row['utilization'])
+                        ? (string) $row['utilization'] 
+                        : null,
                     'image'               => $row['image'] ?? null,
                 ]
             );
