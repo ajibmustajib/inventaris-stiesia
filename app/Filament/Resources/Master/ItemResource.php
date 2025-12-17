@@ -19,6 +19,10 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use App\Imports\ItemImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
 class ItemResource extends Resource
 {
@@ -188,6 +192,41 @@ class ItemResource extends Resource
                     ->modalHeading('Tambah Data Barang')
                     ->modalCancelAction(fn (StaticAction $action) => $action->label('Batal'))
                     ->successNotificationTitle('Data barang berhasil ditambahkan'),
+
+                Action::make('importExcel')
+                    ->label('Import Excel')
+                    ->icon('heroicon-o-arrow-up-tray')
+                    ->color('success')
+                    ->form([
+                        FileUpload::make('file')
+                            ->label('File Excel')
+                            ->required()
+                            ->disk('local')           
+                            ->directory('imports')    
+                            ->acceptedFileTypes([
+                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                'application/vnd.ms-excel',
+                            ]),
+                    ])
+                    ->action(function (array $data) {
+                        try {
+                            $filePath = Storage::disk('local')->path($data['file']);
+
+                            Excel::import(new ItemImport, $filePath);
+
+                            Notification::make()
+                                ->title('Import Barang berhasil')
+                                ->success()
+                                ->send();
+
+                        } catch (\Throwable $e) {
+                            Notification::make()
+                                ->title('Import gagal')
+                                ->body($e->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

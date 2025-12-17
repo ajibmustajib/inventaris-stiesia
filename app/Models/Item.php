@@ -28,10 +28,6 @@ class Item extends Model
         return $this->hasMany(RoomAsset::class, 'item_id', 'id');
     }
 
-    /**
-     * Relasi ke JenisBarang
-     * Barang milik satu JenisBarang
-     */
     public function itemType()
     {
         return $this->belongsTo(ItemType::class, 'id_item_type', 'id');

@@ -117,7 +117,7 @@ class ItemTypeResource extends Resource
                             Excel::import(new ItemTypeImport, $filePath);
 
                             Notification::make()
-                                ->title('Import Jenis Ruangan berhasil')
+                                ->title('Import Jenis Barang berhasil')
                                 ->success()
                                 ->send();
 
