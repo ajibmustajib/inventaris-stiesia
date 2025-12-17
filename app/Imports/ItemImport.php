@@ -19,7 +19,7 @@ class ItemImport implements ToCollection, WithHeadingRow
             $name = trim((string) ($row['name'] ?? ''));
             $image = $row['image'] ?? null;
 
-            if ($itemCode === '' || $itemTypeCode === '' || $name === '') {
+            if ($itemTypeCode === '' || $name === '') {
                 continue;
             }
 
