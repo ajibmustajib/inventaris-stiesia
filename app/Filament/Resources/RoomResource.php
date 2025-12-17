@@ -59,7 +59,11 @@ class RoomResource extends Resource
 
                     TextInput::make('room_code')
                         ->label('Kode Ruangan')
-                        ->nullable(),
+                        ->required()
+                        ->rules(fn ($record) => [
+                            'required', 'string', 'max:10', Rule::unique('rooms', 'room_code')->ignore($record?->id),
+                        ])
+                        ->reactive(),
 
                     Textarea::make('description')
                         ->label('Deskripsi Ruangan')
@@ -83,16 +87,14 @@ class RoomResource extends Resource
                             '2' => 'Dosen',
                             '3' => 'Laboratorium',
                         ])
-                        ->required()
-                        ->nullable()
-                        ->dehydrated(fn ($state) => $state ?: null),
+                        ->required(),
 
                     TextInput::make('utilization')
                         ->label('Utilisasi Ruangan')
                         ->required()
                         ->rules([
-                            'nullable', 'string', 'max:100',
-                        ])->dehydrated(fn ($state) => $state ?: null),
+                            'required', 'string', 'max:100',
+                        ]),
 
                     FileUpload::make('image')
                         ->label('Upload File')
@@ -105,7 +107,6 @@ class RoomResource extends Resource
                             'max:2048',
                         ])
                         ->image()
-                        ->nullable()
                         ->helperText('Max File 2MB dengan format jpeg, jpg, png')
                         ->visibility('public'),
 
@@ -131,7 +132,7 @@ class RoomResource extends Resource
                             '13' => 'Perpendiknas',
                         ])
                         ->columns(2)
-                        ->nullable()
+                        ->required()
                         ->bulkToggleable(), // opsional
 
                 ])->columns(1),
