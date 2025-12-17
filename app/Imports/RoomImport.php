@@ -29,26 +29,15 @@ class RoomImport implements ToCollection, WithHeadingRow
                 if (is_string($rawEdu)) {
                     $decoded = json_decode($rawEdu, true);
                     if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
-                        $educationLevels = array_map('strval', $decoded);
+                        $educationLevels = array_values($decoded);
                     }
                 } elseif (is_array($rawEdu)) {
-                    $educationLevels = array_map('strval', $rawEdu);
+                    $educationLevels = array_values($rawEdu);
                 }
             }
 
-
-            $rawOption = trim((string) ($row['option'] ?? ''));
-
-            $option = match (strtolower($rawOption)) {
-                '01', '1', 'umum'           => '1',
-                '02', '2', 'dosen'          => '2',
-                '03', '3', 'laboratorium',
-                'lab'                       => '3',
-                default                     => null,
-            };
-
             Room::updateOrCreate(
-                
+                ['id' => (int) $id], // ← ID dari Excel
                 [
                     'room_code'           => $roomCode,
                     'room_type_id'        => (int) $roomTypeId,
@@ -62,9 +51,11 @@ class RoomImport implements ToCollection, WithHeadingRow
                     'education_level_ids' => $educationLevels
                         ? json_encode($educationLevels)
                         : null,
-                    'option'              => $option, 
+                    'option'              => isset($row['option'])
+                        ? (string) $row['option']  
+                        : null,
                     'utilization'         => isset($row['utilization'])
-                        ? (string) $row['utilization']
+                        ? (string) $row['utilization'] 
                         : null,
                     'image'               => $row['image'] ?? null,
                 ]
