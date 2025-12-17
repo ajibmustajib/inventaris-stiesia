@@ -83,9 +83,9 @@ class RoomResource extends Resource
                     Select::make('option')
                         ->label('Opsi Ruangan')
                         ->options([
-                            '1' => 'Umum',
-                            '2' => 'Dosen',
-                            '3' => 'Laboratorium',
+                            'U' => 'Umum',
+                            'D' => 'Dosen',
+                            'L' => 'Laboratorium',
                         ])
                         ->required(),
 
